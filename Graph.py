@@ -2,14 +2,21 @@
 #Leetcode261 Graph Valid Tree
 """
 这道题是一道好题，其他类似的请参考
-1lintcode(176) Route between 2 Nodes in a Tree
-这道题目我自己第一次想的时候想到用DFS做，但是漏掉了一点就是你需要一个HashSet来记录是否访问过，因为有可能在做DFS的时候某次expand  depth的时候如果出现环的话然后你又没有用hash set标记的话，你的DFS就会在那个环那里一直绕圈，而没有办法expand 其他的路径
+lintcode(176) Route between 2 Nodes in a Tree
+这道题目我自己第一次想的时候想到用DFS做，但是漏掉了一点就是你需要一个HashSet来记录是否访问过，
+因为有可能在做DFS的时候某次expand  depth的时候如果出现环的话然后你又没有用hash set标记的话，你的DFS就会在那个环那里一直绕圈，而没有办法expand 其他的路径
 
 
 原因就是原来当你在脑海中模拟DFS的时候，你假设的是DFS的对象是一个TREE 没有环，但是如果题目给你的是一个graph,你应该要考虑
 
 
-(一个side note,但其实在很多时候除了题目指定说要确定这个graph里面有没有cycle，很多时候你需要的都只是不要重复访问一个node多次而已，所以只需要使用一个sets或者flg arrayj就可以了。举个简单的例子，lintcode176 它让你判断在一个directed graph 里面是否存在一条从start 到end 的route.那么假设这个graph里面有cycle,但是也存在一条从start 到end 的route)
+(一个side note,但其实在很多时候除了题目指定说要确定这个graph里面有没有cycle，
+很多时候你需要的都只是不要重复访问一个node多次而已，所以只需要使用一个sets或者flg arrayj就可以了。
+举个简单的例子，lintcode176 它让你判断在一个directed graph 里面是否存在一条从start 到end 的route.
+那么假设这个graph里面有cycle,但是也存在一条从start 到end 的route)
+
+所以，意思就是对于graph的问题，必须要做marking,因为他不是tree,有可能有cycle,如果你不做marking然后就用DFS，BFS
+之类的做travesal的话，一旦出现cycle就崩了！！！！！=》GRAPH TRAVERSAL NEEDS DO MARKING！！！！！！！！！！！！！！！！！！！
 
 
 1 这个graph里面可不可能出现环
@@ -22,7 +29,7 @@
 
 
 
-2这个graph里面的components 是不是connected的
+2这个graph里面的components 是不是connected的，我觉得只需要做marking 就够了
 
 """
 
