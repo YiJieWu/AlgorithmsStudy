@@ -1,21 +1,107 @@
-'''
-def count(text):
-	count=0
-	idx=0
-	paragraph=text.lower().split(' ')
-	for word in paragraph:
-		if 'ng' in word:
-			print idx+len(word.split('ng')[0])
-			count+=1
-		idx+=len(word)+1
+import sys
 
-	return count
+#Longest increasing subsequence
 
-	
-text="The orange is the fruit of the citrus species Citrus x sinensis in the family Rutaceae. It is also called sweet orange, to distinguish it from the related Citrus x aurantium, referred to as bitter orange. The sweet orange reproduces asexually (apomixis through nucellar embryony); varieties of sweet orange arise through mutations. The orange is a hybrid between pomelo (Citrus maxima) and mandarin (Citrus reticulata). It has genes that are ~25% pomelo and ~75% mandarin; however, it is not a simple backcrossed BC1 hybrid, but hybridized over multiple generations. The chloroplast genes, and therefore the maternal line, seem to be pomelo. The sweet orange has had its full genome sequenced. Earlier estimates of the percentage of pomelo genes varying from ~50% to 6% have been reported. Sweet oranges were mentioned in Chinese literature in 314 BC. As of 1987, orange trees were found to be the most cultivated fruit tree in the world. Orange trees are widely grown in tropical and subtropical climates for their sweet fruit. The fruit of the orange tree can be eaten fresh, or processed for its juice or fragrant peel. As of 2012, sweet oranges accounted for approximately 70% of citrus production. In 2014, 70.9 million tonnes of oranges were grown worldwide, with Brazil producing 24% of the world total followed by China and India."
-print count(text)
 
-'''
+#Brutal Force
+#Version1 
+def helper(nums,prev,cur):
+    if cur==len(nums)-1:
+        if nums[cur]>prev:
+            return 1
+        else:
+            return 0
+    res=0
+    for i in xrange(cur,len(nums)):
+        if nums[i]>prev:
+            res=max(res,1+helper(nums,nums[i],i+1))
+    return res
+            
+            
+        
+def lengthOfLIS(nums):
+    return helper(nums,-1*sys.maxint,0)
+
+
+#Version2
+def helper(nums,prev,cur):
+    if cur==0:
+        return 0
+    res=0
+    for i in xrange(0,cur):
+        if nums[i]<prev:
+            res=max(res,1+helper(nums,nums[i],i))
+    return res
+            
+            
+        
+def lengthOfLIS(nums):
+    return helper(nums,sys.maxint,len(nums))
+
+#---------------------------------------------------------
+
+
+#buffering
+#Version1 dp[i] denotes staring from index i to end
+
+def helper(nums,prev,cur,dp):
+    if cur==len(nums)-1:
+        if nums[cur]>prev:
+            return 1
+        else:
+            return 0
+    res=0
+    for i in xrange(cur,len(nums)):
+        if nums[i]>prev:
+            if dp[i]==-1:
+                dp[i]=helper(nums,nums[i],i+1,dp)
+            res=max(res,1+dp[i])
+    return res
+            
+            
+        
+def lengthOfLIS(nums):
+    #staring from index i to end
+    dp=[-1]*len(nums)
+    return helper(nums,-1*sys.maxint,0,dp)
+
+
+#Version2 dp[i] denotes staring from index 0 and ending at index[i]
+def helper(self,nums,prev,cur,dp):
+    if cur==0:
+        return 0
+    res=0
+    for i in xrange(0,cur):
+        if nums[i]<prev:
+            if dp[i]==-1:
+                dp[i]=self.helper(nums,nums[i],i,dp)
+        res=max(res,1+dp[i])
+    return res
+            
+            
+        
+def lengthOfLIS(nums):
+    #dp[i] denotes logesting you can get ending at i
+    dp=[-1]*len(nums)
+    return self.helper(nums,sys.maxint,len(nums),dp)
+
+#---------------------------------------------------------
+#bottom up dp
+def lengthOfLIS(self, nums):
+    if len(nums)==0:
+        return 0
+    dp=[1]*len(nums)
+    res=dp[0]
+    for i in xrange(1,len(dp)):
+        for j in xrange(i):
+            #increasing
+            if nums[i]>nums[j] and 1+dp[j]>dp[i]:
+                dp[i]=1+dp[j]
+        if dp[i]>res:
+            res=dp[i]
+    return res
+
+lengthOfLIS([8,1,2,3])
 
 
 
@@ -51,4 +137,4 @@ def get_all_subsequence(my_string):
     return res
 
 print get_all_subsequence('ABC')
-
+        
