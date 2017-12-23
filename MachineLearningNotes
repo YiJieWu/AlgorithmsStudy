@@ -1,0 +1,61 @@
+Machine Learnin Notes
+
+Optimizations
+
+Gradient Descent
+
+A.Different types if G.D
+1)normal/batch gradient descent
+(Computationally expensice,when the data set is really really large, too slow and maybe can not put into ram)
+2)mini bacth gradient descent
+
+3)stochatistic gradient descent
+
+
+B.How to tune the learning rate parameter
+
+
+
+
+0)Fixed learing rate
+
+
+1)Step decay
+(Basically step decay means to reduce the step size by some factors every few epochs.E.g
+Typical values might be reducing the learning rate by a half every 5 epochs, or by 0.1 every 20 epochs.
+
+The gut instinct behind this is at first, when you are far away from you optimization goals. you can
+move larger step, but as you are keep approximating your final destination, you have to reduce you step
+size so that you do not pass by you optimization goals!
+)
+
+2)Exponential decay. 
+
+3)1/t decay
+
+In practice, we find that the step decay is slightly preferable because the hyperparameters it involves 
+(the fraction of decay and the step timings in units of epochs) are more interpretable than the hyperparameter k. 
+Lastly, if you can afford the computational budget, err on the side of slower decay and train for a longer time.
+
+
+Adaptive Learning Rate Methods
+The challenge of using learning rate schedules is that their hyperparameters have to be defined in advance and 
+they depend heavily on the type of model and problem. Another problem is that the same learning rate is applied to all parameter updates. 
+If we have sparse data, we may want to update the parameters in different extent instead.
+
+Adaptive gradient descent algorithms such as Adagrad, Adadelta, RMSprop, Adam, provide an alternative to classical SGD. 
+These per-parameter learning rate methods provide heuristic approach without requiring expensive work in 
+tuning hyperparameters for the learning rate schedule manually.
+
+
+
+Decision Tree
+
+A. How can D.T algorithms handle continuous features?
+(The basic idea of handle continupus is Discretization,please check this for reference https://cis.temple.edu/~giorgio/cis587/readings/id3-c45.html)
+
+We can deal with the case of attributes with continuous ranges as follows. Say that attribute Ci has a continuous range. 
+We examine the values for this attribute in the training set. Say they are, in increasing order, A1, A2, .., Am. 
+Then for each value Aj, j=1,2,..m,we partition the records into those that have Ci values up to and including Aj, 
+and those that have values greater than Aj.For each of these partitions we compute the gain, or gain ratio, 
+and choose the partition that maximizes the gain.
