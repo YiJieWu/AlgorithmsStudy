@@ -112,7 +112,6 @@ A,B,C;
 A,BC; 
 AB,C;
 ABC 
-
 '''
 
 def helper(my_string,cur,res,start,end):
@@ -137,4 +136,50 @@ def get_all_subsequence(my_string):
     return res
 
 print get_all_subsequence('ABC')
-        
+
+
+'''
+The Question is
+Given a boolean 2D array, where each row is sorted. Find the row with the maximum number of 1s.
+'''
+
+
+#approach1 brutal force counting the # of 1s on each row,O(M*N)
+
+#approach2 since it's sorted, then for each row, what you can do is do binary search to find the leftmost 1
+#Time complexity will be O(M*logN)
+
+#The best approach will only take O(M+N) is as following,starting with the first row, scan from right to left
+#untill you find the left most 1, then for each of the following rows, check if they have lefter 1 then this row
+def get_left_most(matrix,row_num,start):
+    bench=start
+    for i in xrange(start,-1,-1):
+        if matrix[row_num][i]==1 and i<bench:
+            bench=i
+    return bench
+
+
+def get_max_ones(matrix):
+    #corner case, if empty matrix
+    if len(matrix)==0:
+        return [-1,-1]
+    
+    leftmost=len(matrix[0])-1
+    #calculate the leftmost index of 1 within the whole matrix
+    for row in xrange(len(matrix)):
+        if matrix[row][leftmost]==1:
+            leftmost=min(leftmost,get_left_most(matrix,row,leftmost))
+            matrix[row][0]=leftmost+100
+
+    count=0
+    for row in xrange(len(matrix)):
+        count+=matrix[row][0]
+        if matrix[row][0]==(leftmost+100):
+            print row+1,len(matrix[0])-leftmost
+    if count==0:
+        for row in xrange(len(matrix)):
+            print row+1,0
+
+
+
+get_max_ones([[0,0,0,1],[0,0,1,1],[0,1,1,1]])

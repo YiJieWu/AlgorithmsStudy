@@ -33,6 +33,47 @@ lintcode(176) Route between 2 Nodes in a Tree
 
 """
 
+O(2^n)
+
+
+def helper(num, cur, dp):
+      for i in xrange(0, cur + 1):
+          If (num[cur] > num[i]):
+              If (dp[i] == -1):
+                   helper(num, i, dp)
+              Dp[cur] = max(dp[cur], dp[i] + 1)
+
+
+Dp = [-1] * len(num)
+helper(num, len(num) - 1, dp)
+
+
+
+#This the original brutal recursion with the help of buffer
+def helper(num,cur,prev,dp):
+  #base case
+  if cur>=len(num):
+  	return 0
+  
+  res=0
+  for i in xrange(cur,len(num)):
+  	cur=0  
+    if num[i]>prev:
+    	if dp[i]!=-1:
+      	cur=dp[i]
+      else:
+      	cur=1+helper(num,i,num[i],dp)
+        dp[i]=cur
+      res=max(res,cur)
+    return res
+
+
+def len_of_longest(num):
+	#dp[i] means the longest increasing I can get ending at index i
+  dp=[-1]*len(num)
+  return helper(num,0,-1*sys.maxint,dp)
+
+
 
 
 
