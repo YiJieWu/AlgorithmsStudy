@@ -183,3 +183,30 @@ def get_max_ones(matrix):
 
 
 get_max_ones([[0,0,0,1],[0,0,1,1],[0,1,1,1]])
+
+
+
+
+
+
+#  3、一个字符串,string, 'abcabcdefcabc....',要求去除‘c’， ‘ab’子字符串
+# ‘abcd’ 'd'
+# 'acbd' 'd';'aacbb'->''
+#  时间O(N)
+
+def remove(string):
+    #check corner case,string is empty
+    if len(string)==0:
+        return None
+    
+    Stack=[]
+    for char in string:
+        if char=='c':
+            continue
+    if char=='b' and len(Stack)>=2 and Stack[-1:]=='a':
+        Stack.pop()
+
+    Stack.append(char)
+          
+                
+    return Stack

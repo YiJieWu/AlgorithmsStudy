@@ -35,6 +35,7 @@ climbing stairs
 
 --------------------
 coin change
+Coin Change 2
 Cutting a Rod
 backpack III
 word break(word break 这道题目的难点是理解dp[i]表示的是什么，之前用dp[i]来表示以i 结尾的index 发现做不出来，后来改成了dp[i]表示的是
@@ -241,23 +242,20 @@ class Solution(object):
 '''
 这道题naive 的写法和longest increasing subsequence 的naive 写法有点像
 '''
-def helper(self,nums,cur,res,start,prev):
-        res.append(list(cur))
-        
-        for i in xrange(start,len(nums)):
+def helper(self,nums,cur,prev):
+     if cur>=len(nums):
+            return 0
+        res=0
+        for i in xrange(cur,len(nums)):
             if nums[i]>prev:
-                cur.append(nums[i])
-                self.helper(nums,cur,res,i+1,nums[i])
-                cur.pop()
-                
-    def lengthOfLIS(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        res=[]
-        self.helper(nums,[],res,0,-1*sys.maxint)
-        return res
+                res=max(res,1+self.helper(nums,i,nums[i]))
+    
+def lengthOfLIS(self, nums):
+    """
+    :type nums: List[int]
+    :rtype: int
+    """
+    return self.helper(nums,0,-1*sys.maxint)
 
 
 
