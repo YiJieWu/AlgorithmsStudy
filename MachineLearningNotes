@@ -50,10 +50,30 @@ tuning hyperparameters for the learning rate schedule manually.
 
 
 Decision Tree
+(Some good reference 
+Regression Tree:
+http://www.stat.cmu.edu/~cshalizi/350-2006/lecture-10.pdf
 
-A. How can D.T algorithms handle continuous features?
-(The basic idea of handle continupus is Discretization,please check this for reference https://cis.temple.edu/~giorgio/cis587/readings/id3-c45.html)
+Id3 and C4.5:
+https://cis.temple.edu/~giorgio/cis587/readings/id3-c45.html)
 
+Gradient Boosting Decision Tree:
+https://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf
+)
+
+
+
+A. Different types of D.T
+
+1)ID3 D.T
+2)C4.5
+3)CART
+4)GBDT
+
+
+
+E. How can D.T algorithms handle continuous features?
+(The basic idea of handle continupus is Discretization)
 We can deal with the case of attributes with continuous ranges as follows. Say that attribute Ci has a continuous range. 
 We examine the values for this attribute in the training set. Say they are, in increasing order, A1, A2, .., Am. 
 Then for each value Aj, j=1,2,..m,we partition the records into those that have Ci values up to and including Aj, 
