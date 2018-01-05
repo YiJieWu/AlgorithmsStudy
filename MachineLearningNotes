@@ -79,3 +79,56 @@ We examine the values for this attribute in the training set. Say they are, in i
 Then for each value Aj, j=1,2,..m,we partition the records into those that have Ci values up to and including Aj, 
 and those that have values greater than Aj.For each of these partitions we compute the gain, or gain ratio, 
 and choose the partition that maximizes the gain.
+
+
+Naive Bayes
+
+0. Understand what is chain rule:
+To find any joint probability such as 
+P(ABCD)
+
+We can  rewrite this as
+P(ABCD)=P(A|BCD)*P(BCD)
+
+Repeating this process on the join probability
+
+P(ABCD)=P(A|BCD)*P(B|CD)*P(C|D)*P(D)
+
+
+This is important, because generally when we talk about conditional probability
+We say P(A|B)=P(AB)/P(B)
+
+But what about P(A|BCD)???
+What is the conditional probability equal to , by using the previous chain rule ,we know
+P(A|BCD)=P(ABCD)/P(BCD)
+
+
+1 Naive Basyes
+Assuming we are interested in the 
+P(A|BCD)
+We know that according to the chain rule
+P(A|BCD)=P(ABCD)/P(BCD)
+
+Also, we know according to conditional probability
+P(ABCD)=P(BCD|A)*P(A)
+
+Therefore,P(A|BCD)=(P(BCD|A)*P(A))/P(BCD).Let’s take a closer look at P(BCD|A), if P(BCD|A) is conditional independent on A
+Then we can rewrite this as P(B|A)*P(C|A)*P(D|A)*P(A)
+
+
+2 Guassian vs Multinomial vs Bern N.B
+The general term Naive Bayes refers the the strong independence assumptions in the model, rather than the particular distribution of each feature.Up to this point we have said nothing about the distribution of each feature. In other words, we have left 
+p(fi|c)
+ undefined. The term Multinomial Naive Bayes simply lets us know that each 
+p(fi|c)
+is a multinomial distribution, rather than some other distribution. This works well for data which can easily be turned into counts, such as word counts in text.The distribution you had been using with your Naive Bayes classifier is a Guassian p.d.f., so I guess you could call it a Guassian Naive Bayes classifier.
+In summary, Naive Bayes classifier is a general term which refers to conditional independence of each of the features in the model, while Multinomial Naive Bayes classifier is a specific instance of a Naive Bayes classifier which uses a multinomial distribution for each of the features.
+
+3 Laplacian correction (a way of dealing with zero probability values. )
+There is a simple trick to avoid this problem.We can assume that our training set is so large that adding one to each count that we need would only make a negligible difference in the estimated probabilities, yet would avoid the case of zero probability values. This technique is know as Laplacian correction (or Laplace estimator). 
+
+4 Computational Stability
+When calculate the probability part, we need to do multiplication on a list of probability.从此可以看出，仅仅需要是个1%的概率相乘就可以得到一个极小的结果。而机器学习中往往是成百上千个数字相乘，类似的情况导致计算机无法分辨0和和一个极小数之间的区别。在这种情况下，下溢可能导致模型直接失败。
+相似的，上溢也是很容易发生的状况。试想我们需要将多个较大的数相乘，很轻易的就可以超过计算机的上限。
+
+How do we handle this, instead of doing the multiplication directly, we take the LOG of our calculation. Therefore, we convert it to a adding
