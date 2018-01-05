@@ -210,3 +210,226 @@ def remove(string):
           
                 
     return Stack
+
+'''
+The Question is
+Given a boolean 2D array, where each row is sorted. Find the row with the maximum number of 1s.
+'''
+
+
+#approach1 brutal force counting the # of 1s on each row,O(M*N)
+
+#approach2 since it's sorted, then for each row, what you can do is do binary search to find the leftmost 1
+#Time complexity will be O(M*logN)
+
+#The best approach will only take O(M+N) is as following,starting with the first row, scan from right to left
+#untill you find the left most 1, then for each of the following rows, check if they have lefter 1 then this row
+def get_left_most(matrix,row_num,start):
+    bench=start
+    for i in xrange(start,-1,-1):
+        if matrix[row_num][i]==1 and i<bench:
+            bench=i
+    return bench
+
+
+def get_max_ones(matrix):
+    #corner case, if empty matrix
+    if len(matrix)==0:
+        return [-1,-1]
+    
+    leftmost=len(matrix[0])-1
+    #calculate the leftmost index of 1 within the whole matrix
+    for row in xrange(len(matrix)):
+        if matrix[row][leftmost]==1:
+            leftmost=min(leftmost,get_left_most(matrix,row,leftmost))
+            matrix[row][0]=leftmost+100
+
+    count=0
+    for row in xrange(len(matrix)):
+        count+=matrix[row][0]
+        if matrix[row][0]==(leftmost+100):
+            print row+1,len(matrix[0])-leftmost
+    if count==0:
+        for row in xrange(len(matrix)):
+            print row+1,0
+
+
+get_max_ones([[0,0,0,1],[0,0,1,1],[0,1,1,1]])
+
+
+
+
+import heapq
+from collections import Counter
+#Given the merge list,find the min interval within it that covers all the elements 
+#in the target_list
+def helper(merge_list,counter,missing):
+    start=i=0
+    j=merge_list[len(merge_list)-1][1]
+
+    for end in xrange(len(merge_list)):
+        if merge_list[end][0] in counter:
+            if counter[merge_list[end][0]]>0:
+                missing-=1
+            counter[merge_list[end][0]]-=1
+
+        #move the head pointer and try to get the min
+        while missing==0:
+            if merge_list[end][1]-merge_list[start][1]<j-i:
+                j=merge_list[end][1]
+                i=merge_list[start][1]
+
+            #the number is irrelavant,just skip
+            if merge_list[start][0] not in counter:
+                start+=1
+            else:
+                if counter[merge_list[start][0]]==0:
+                    break
+                else:
+                    counter[merge_list[start][0]]+=1
+                    start+=1
+    print [i,j]
+
+def find_min_interval(input):
+    #merge k list into one
+    merge_list=[]
+    target_list=[]
+    min_heap=[]
+    for row in xrange(len(input)):
+        heapq.heappush(min_heap,(input[row][0],row,0))
+        target_list.append(row)
+
+    while len(min_heap)!=0:
+        cur_tuple=heapq.heappop(min_heap)
+        row=cur_tuple[1]
+        index=cur_tuple[2]
+        merge_list.append((row,cur_tuple[0]))
+        if index+1<len(input[row]):
+            heapq.heappush(min_heap,(input[row][index+1],row,index+1))
+    #DEBUG
+    #print merge_list
+    return helper(merge_list,Counter(target_list),len(target_list))
+
+find_min_interval([[1,3,5],[4,8],[2,5]])
+
+
+#given a string,extract only brackets
+def purify(input):
+    res=[]
+    for char in input:
+        if char=='(' or char=='[' or char=='{' or char==')' or char==']' or char =='}':
+            res.append(char)
+    return ''.join(res)
+
+#given a string includes only brackets, remove consecutive {}
+def remove_curly(input):
+    res=[]
+    start=0
+    while start<len(input):
+        res.append(input[start])
+        #print 'IN WHILE',start,res
+        if input[start]=='{':
+            while start<len(input):
+                start+=1
+                if start==len(input) or input[start]!='{':
+                    break
+        elif input[start]=='}':
+            while start<len(input):
+                start+=1
+                if start==len(input) or input[start]!='}':
+                    break
+        else:
+            start+=1
+            
+       
+
+    return ''.join(res)
+
+def checkValid(input):
+    new_input=purify(input)
+    print 'NEW1',new_input
+    new_input2=remove_curly(new_input)
+    print 'NEW',new_input2
+    myStack=[]
+    #count for paren
+    pc=0
+    #count for squared 
+    sc=0
+    for index,char in enumerate(new_input2):
+        if char=='(' or char=='[' or char=='{':
+            myStack.append(char)
+            if char=='(':
+                if pc!=0:
+                    return False
+                else:
+                    pc=1
+            if char=='[':
+                if (sc!=0 or pc!=0) or(index+1<len(new_input2) and new_input2[index+1]!='('):
+                    return False
+                else:
+                    sc=1
+            if char=='{':
+                if (sc!=0 or pc!=0) or(index+1<len(new_input2) and new_input2[index+1]!='['):
+                    return False
+        else:
+            ele=myStack.pop()
+            if char=='}':
+                if ele!='{':
+                    return False
+            if char==']':
+                if ele!='[':
+                    return False
+                else:
+                    sc=0
+            if char==')': 
+                if ele!='(':
+                    return False
+                else:
+                    pc=0
+
+    if len(myStack)!=0:
+        return False
+    else:
+        return True
+print checkValid('{}')
+print checkValid('([])')
+print checkValid('()[]')
+print checkValid('[()]')
+print checkValid('{[()]}')
+print checkValid('{{[()]}}')
+print checkValid('{[(2+3)*(1-3)] + 4}*(14-3)')
+
+
+'''
+given a list of points, find all non-dominated point, a point A(x1,y1) is said to be dominated by point B(x2,y2)
+If  x1<x2 and y1<y2
+
+Can solve in O(NlogN)
+'''
+
+def find_non_dominated(input):
+    #Trivial case
+    if len(input)<=1:
+        return input
+    #sort the input by y axis
+    input.sort(key=lambda ele:ele[1])
+    #Traverse from the end
+    res=[input[-1]]
+    cur_max=input[-1][0]
+    prev=input[-1][1]
+    for tup in input[-2::-1]:
+        #print 'in loop',tup
+        #cur ele is dominated
+        if tup[0]<cur_max and tup[1]<prev:
+            continue
+        else:
+            res.append(tup)
+        prev=tup[1]
+    return res
+
+test1=[(37,45),(34,60),(38,41), (32,25),   (25,32)]
+test2=[(37,45),(34,45),(38,45), (32,45),   (25,32)]
+
+print find_non_dominated(test2)
+
+
