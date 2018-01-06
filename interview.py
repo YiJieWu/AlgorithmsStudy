@@ -433,3 +433,19 @@ test2=[(37,45),(34,45),(38,45), (32,45),   (25,32)]
 print find_non_dominated(test2)
 
 
+'''
+给定初始坐标 (x1, y1) 和终点坐标 (x2, y2)， 问能否到达终点。
+坐标移动规则： (x, y) -> (x, x+y) 或者 (x, y) -> (x+y, y)
+
+'''
+def check(s1,s2,e1,e2):
+    if s1>e1 or s2>e2:
+        return False
+    if s1==e1 and s2==e2:
+        return True
+
+    r1=check(s1,s1+s2,e1,e2)
+    r2=check(s1+s2,s2,e1,e2)
+    return r1 or r2
+
+print check(2,1,3,4)
