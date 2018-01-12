@@ -1,0 +1,38 @@
+Random Variable
+
+A random variable is actually a function that map the outcomes of a random process to a numeric value. 
+For instance, let's say we have the random process of flipping a coin where the coin can only have one 
+of two outcomes - head or a tail.
+
+Distribution 
+
+A probability distribution is a table or an equation that links each outcome of a 
+statistical experiment with its probability of occurrence.
+
+PMF and PDF
+
+If a random variable X has a discrete distribution,
+the probability function (abbreviated p.f.) of X is defined 
+as the function f such that for every real number x,
+f (x) = Pr(X = x).
+
+
+
+Conclusion, if you are a P.F/PDF of a random variable, you can 
+easily calculate its probability of something!!!!!!
+
+
+
+Gaussian/Normal Distribution
+
+. How to describe a normal distribution
+N(mean,standard deviation)
+where standard deviation is squared root of variance
+
+. What is z-score
+Used to denote how many standard deviations the original observation falls 
+away from the mean
+
+Equation: The z score of data poin x is 
+          
+       (x-mean)/standard deviation
