@@ -47,3 +47,29 @@ away from the mean
 Equation: The z score of data poin x is 
           
        (x-mean)/standard deviation
+
+
+
+Binomial Distribution
+
+. The binomial setting
+1. There are a fixed number n of observations.
+2. The n observations are all independent. That is, knowing the result of one
+observation tells you nothing about the other observations.
+3. Each observation falls into one of just two categories, which for convenience
+we call “success” and “failure."
+4. The probability of a success, call it p, is the same for each observation.
+
+. Binomial p.f
+In the binomial distribution, what we are interested the number of successes,
+so we model it as
+P(X=k)=f(x|n,p)=(n choose x )p^x*(1-p)^(n-x)
+
+. Real word exampls
+(Q1)Given a fair coin, if we toss it 6 times,what's the probability there will be exactly 4 heads
+This is obvious a binomial distribution, (6 choose 4)*(1/2)^4*(1/2)^2
+
+(Q2)Given a fair coin, if we toss it 6 times,what's the probability there will be consecutive 4 heads
+
+
+
