@@ -541,6 +541,52 @@ class Solution(object):
         else:
             return 0
 #---------------------------------------------------------------------------------------------------
+45. Jump Game II
+# 这道题好的地方也是对于top down dp,它不只是依赖于当前位置的Index i,而且也取决于它走到这步时候前面的count走了多少
+
+# Brutal force
+class Solution(object):
+    def helper(self, nums, target_index, cur_index, count):
+        if cur_index >= target_index:
+            return count
+        min_jump = sys.max
+        for step in range(1, nums[cur_index] + 1):
+            min_jump = min(min_jump, self.helper(nums, target_index, cur_index + step, count + 1))
+
+        return min_jump
+    def jump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        return self.helper(nums, len(nums) - 1, 0, 0)
+
+# Top down dp
+class Solution(object):
+    def helper(self, nums, target_index, cur_index, count, cache):
+        #print 'Enter fun', cur_index, cache
+        if cur_index >= target_index:
+            return count
+        hash_value = str(count) + '$' + str(cur_index)
+        if hash_value in cache: return cache[hash_value]
+        min_jump = sys.maxint
+        for step in range(1, nums[cur_index] + 1):
+            min_jump = min(min_jump, self.helper(nums, target_index, cur_index + step, count + 1, cache))
+
+        cache[hash_value] = min_jump
+        #print 'cur_index', cur_index, cache
+        return cache[hash_value]
+    def jump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        cache = {}
+        return self.helper(nums, len(nums) - 1, 0, 0, cache)
+
+
+
+#---------------------------------------------------------------------------------------------------
 #8 Combination Sum IV
 
 #Naive Recursion
