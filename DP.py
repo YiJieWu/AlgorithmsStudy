@@ -465,6 +465,10 @@ class Solution(object):
 不是唯一取决于cur的位置，还取决于剩下的sum,这道题好像是knapsack的变种，
 准备去复习一下knapsack
 
+类似的题目还有 
+416. Partition Equal Subset Sum
+
+
 '''
 
 #Naive Recursion
